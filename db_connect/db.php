@@ -31,9 +31,7 @@
             $alerts[] = $row;
         }
 
-        // Encode the data as JSON
         $total_alerts = count($alerts);
-        //echo "Total alerts: " . $total_alerts . "\n";
         // Free result set and close connection
         pg_free_result($rs_alerts);
         pg_close($dbconn);
@@ -59,7 +57,6 @@
         }
 
         $total_decisions = count($decisions);
-        //echo "Total decisions: " . $total_decisions . "\n";
         // Free result set and close connection
         pg_free_result($rs_decisions);
         pg_close($dbconn);
@@ -83,9 +80,7 @@
             $bouncers[] = $row;
         }
     
-        // Encode the data as JSON
         $total_bouncers = count($bouncers);
-        //echo "Total bouncers: " . $total_bouncers . "\n";
         // Free result set and close connection
         pg_free_result($rs_bouncers);
         pg_close($dbconn);
