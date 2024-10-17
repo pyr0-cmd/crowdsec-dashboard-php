@@ -19,6 +19,5 @@
     // Free result set and close connection
     pg_free_result($rs_alerts);
     pg_close($dbconn);
-    return $alerts;
     
 ?>

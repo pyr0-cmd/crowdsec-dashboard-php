@@ -1,6 +1,5 @@
 <?php
     include 'db_connect/db.php';
-    function decisionList(){
         $dbconn = connect_db();
         $query_decisions = 'SELECT * FROM decisions';
         $rs_decisions = pg_query($dbconn, $query_decisions);
@@ -21,6 +20,4 @@
         pg_free_result($rs_decisions);
         pg_close($dbconn);
 
-        return $decisions;
-    }
 ?>
