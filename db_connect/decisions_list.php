@@ -1,5 +1,6 @@
 <?php
-    function count_decisions(){
+    include 'db_connect/db.php';
+    function decisionList(){
         $dbconn = connect_db();
         $query_decisions = 'SELECT * FROM decisions';
         $rs_decisions = pg_query($dbconn, $query_decisions);
@@ -17,9 +18,11 @@
         }
 
         // Encode the data as JSON
-        echo json_encode($decisions);
+        $decision_lst = json_encode($decisions);
         // Free result set and close connection
         pg_free_result($rs_decisions);
         pg_close($dbconn);
+
+        return $decision_lst;
     }
 ?>
