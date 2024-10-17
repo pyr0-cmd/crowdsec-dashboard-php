@@ -3,17 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alerts Table</title>
+    <title>Paginated Alerts</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- TailwindCSS CDN -->
 </head>
 <body class="bg-gray-100">
+    
+
     <div class="container mx-auto p-5">
-        <h1 class="text-3xl font-bold mb-5 text-center">Alerts List</h1>
+        <h1 class="text-3xl font-bold mb-5 text-center">Paginated Alerts List</h1>
 
         <?php
             include 'db_connect/db.php';
             $dbconn = connect_db();
-            $query_alerts = 'SELECT * FROM alerts';
+
+            // Pagination settings
+            $limit = 15; // Number of alerts per page
+            $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+            $offset = ($page - 1) * $limit; // Calculate offset
+
+            // Get total number of alerts
+            $total_alerts_query = 'SELECT COUNT(*) AS total FROM alerts';
+            $total_alerts_result = pg_query($dbconn, $total_alerts_query);
+            $total_alerts_row = pg_fetch_assoc($total_alerts_result);
+            $total_alerts = intval($total_alerts_row['total']);
+
+            // Calculate total pages
+            $total_pages = ceil($total_alerts / $limit);
+
+            // Fetch paginated alerts
+            $query_alerts = "SELECT * FROM alerts LIMIT $limit OFFSET $offset";
             $rs_alerts = pg_query($dbconn, $query_alerts);
 
             if (!$rs_alerts) {
@@ -57,6 +75,21 @@
             pg_free_result($rs_alerts);
             pg_close($dbconn);
         ?>
+
+        <!-- Pagination controls -->
+        <div class="mt-5 flex justify-center">
+            <?php if ($page > 1): ?>
+                <a href="?page=<?= $page - 1 ?>" class="bg-gray-800 text-white px-3 py-1 rounded mr-2">Previous</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a href="?page=<?= $i ?>" class="px-3 py-1 <?= ($i == $page) ? 'bg-gray-600 text-white' : 'bg-gray-200 text-gray-800' ?> rounded mx-1"><?= $i ?></a>
+            <?php endfor; ?>
+
+            <?php if ($page < $total_pages): ?>
+                <a href="?page=<?= $page + 1 ?>" class="bg-gray-800 text-white px-3 py-1 rounded ml-2">Next</a>
+            <?php endif; ?>
+        </div>
     </div>
 </body>
 </html>
