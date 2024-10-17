@@ -8,9 +8,10 @@
 </head>
 <body class="bg-gray-100">
     
+    <?php include 'navbar.php'; ?>
 
     <div class="container mx-auto p-5">
-        <h1 class="text-3xl font-bold mb-5 text-center">Paginated Alerts List</h1>
+        <h1 class="text-3xl font-bold mb-5 text-center">Alerts List</h1>
 
         <?php
             include 'db_connect/db.php';
