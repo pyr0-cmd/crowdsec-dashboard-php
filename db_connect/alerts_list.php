@@ -17,14 +17,12 @@
             $alerts[] = $row;
         }
 
-        // Encode the data as JSON
-        $alert_lst = json_encode($alerts);
         //$total_alerts = count($alerts);
         //echo "Total alerts: " . $total_alerts . "\n";
         // Free result set and close connection
         pg_free_result($rs_alerts);
         pg_close($dbconn);
-        return $alert_lst;
+        return $alerts;
     }
     
 ?>

@@ -17,12 +17,10 @@
             $decisions[] = $row;
         }
 
-        // Encode the data as JSON
-        $decision_lst = json_encode($decisions);
         // Free result set and close connection
         pg_free_result($rs_decisions);
         pg_close($dbconn);
 
-        return $decision_lst;
+        return $decisions;
     }
 ?>
