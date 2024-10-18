@@ -17,9 +17,9 @@
     <div class="flex justify-start items-start h-screen p-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 w-2/3">
             <!-- Decisions Card -->
-            <div class="bg-white shadow-md rounded-lg p-8 transform scale-110">
-                <h2 class="text-3xl font-semibold mb-4">Decisions</h2>
-                <p class="text-2xl">
+            <div class="bg-white shadow-md rounded-lg p-8 transform scale-110 text-center">
+                <h2 class="text-2xl font-semibold mb-4">Decisions</h2>
+                <p class="text-3xl">
                     <?php
                         $decisions = count_decisions();
                         echo "<span class='font-bold'>" . $decisions . "</span>";
@@ -27,9 +27,9 @@
                 </p>
             </div>
             <!-- Alerts Card -->
-            <div class="bg-white shadow-md rounded-lg p-8 transform scale-110">
-                <h2 class="text-3xl font-semibold mb-4">Alerts</h2>
-                <p class="text-2xl">
+            <div class="bg-white shadow-md rounded-lg p-8 transform scale-110 text-center">
+                <h2 class="text-2xl font-semibold mb-4">Alerts</h2>
+                <p class="text-3xl">
                     <?php
                         $alerts = count_alerts();
                         echo "<span class='font-bold'>" . $alerts . "</span>";
@@ -37,9 +37,9 @@
                 </p>
             </div>
             <!-- Bouncers Card -->
-            <div class="bg-white shadow-md rounded-lg p-8 transform scale-110">
-                <h2 class="text-3xl font-semibold mb-4">Bouncers</h2>
-                <p class="text-2xl">
+            <div class="bg-white shadow-md rounded-lg p-8 transform scale-110 text-center">
+                <h2 class="text-2xl font-semibold mb-4">Bouncers</h2>
+                <p class="text-3xl">
                     <?php
                         $bouncers = count_bouncers();
                         echo "<span class='font-bold'>" . $bouncers . "</span>";

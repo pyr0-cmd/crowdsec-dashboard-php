@@ -41,7 +41,6 @@
                 exit();
             }
 
-            // Start the Tailwind-styled table
             echo '<div class="overflow-x-auto">';
             echo '<table class="min-w-full bg-white border border-gray-300 rounded-lg">';
             echo '<thead class="bg-gray-800 text-white">';
@@ -56,7 +55,6 @@
             echo '</thead>';
             echo '<tbody class="text-gray-700">';
 
-            // Fetch and display the alert rows
             while ($row = pg_fetch_assoc($rs_alerts)) {
                 echo '<tr class="border-b border-gray-300">';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['id']) . '</td>';
@@ -72,7 +70,7 @@
             echo '</table>';
             echo '</div>';
 
-            // Free result set and close connection
+            //Close connection
             pg_free_result($rs_alerts);
             pg_close($dbconn);
         ?>
