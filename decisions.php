@@ -69,9 +69,9 @@
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['created_at']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['updated_at']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['until']) . '</td>';
+                echo '<td class="px-4 py-2">' . htmlspecialchars($row['type']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['start_ip']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['end_ip']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['type']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['scope']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['alert_decisions']) . '</td>';
 
@@ -93,12 +93,11 @@
             <?php endif; ?>
 
             <?php
-            // Range of pages to show around the current page
+            
             $page_range = 5;
             $start_page = max(1, $page - floor($page_range / 2));
             $end_page = min($total_pages, $start_page + $page_range - 1);
 
-            // Ensure the range always displays $page_range number of pages
             if ($end_page - $start_page < $page_range - 1) {
                 $start_page = max(1, $end_page - $page_range + 1);
             }
