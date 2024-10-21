@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paginated decisions</title>
+    <title>Crowdsec Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- TailwindCSS CDN -->
 </head>
 <body class="bg-gray-100">
@@ -23,7 +23,7 @@
             $offset = ($page - 1) * $limit; // Calculate offset
 
             // Get total number of decisions
-            $total_decisions_query = 'SELECT COUNT(*) AS total FROM decisions';
+            $total_decisions_query = "SELECT COUNT(*) AS total FROM decisions WHERE origin != 'CAPI'";
             $total_decisions_result = pg_query($dbconn, $total_decisions_query);
             $total_decisions_row = pg_fetch_assoc($total_decisions_result);
             $total_decisions = intval($total_decisions_row['total']);
@@ -32,7 +32,7 @@
             $total_pages = ceil($total_decisions / $limit);
 
             // Fetch paginated decisions
-            $query_decisions = "SELECT * FROM decisions LIMIT $limit OFFSET $offset";
+            $query_decisions = "SELECT * FROM decisions WHERE origin != 'CAPI' LIMIT $limit OFFSET $offset";
             $rs_decisions = pg_query($dbconn, $query_decisions);
 
             if (!$rs_decisions) {
@@ -52,8 +52,7 @@
             echo '<th class="px-4 py-2 text-left">Updated at</th>';
             echo '<th class="px-4 py-2 text-left">Until</th>';
             echo '<th class="px-4 py-2 text-left">Type</th>';
-            echo '<th class="px-4 py-2 text-left">Start IP</th>';
-            echo '<th class="px-4 py-2 text-left">End IP</th>';
+            echo '<th class="px-4 py-2 text-left">Value</th>';
             echo '<th class="px-4 py-2 text-left">Scope</th>';
             echo '<th class="px-4 py-2 text-left">Alert Decisions</th>';
 
@@ -70,8 +69,7 @@
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['updated_at']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['until']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['type']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['start_ip']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['end_ip']) . '</td>';
+                echo '<td class="px-4 py-2">' . htmlspecialchars($row['value']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['scope']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['alert_decisions']) . '</td>';
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paginated Alerts</title>
+    <title>Crowdsec Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- TailwindCSS CDN -->
 </head>
 <body class="bg-gray-100">
@@ -23,7 +23,7 @@
             $offset = ($page - 1) * $limit; // Calculate offset
 
             // Get total number of alerts
-            $total_alerts_query = 'SELECT COUNT(*) AS total FROM alerts';
+            $total_alerts_query = "SELECT COUNT(*) AS total FROM alerts WHERE scenario LIKE 'crowdsecurity/%'";
             $total_alerts_result = pg_query($dbconn, $total_alerts_query);
             $total_alerts_row = pg_fetch_assoc($total_alerts_result);
             $total_alerts = intval($total_alerts_row['total']);
@@ -32,7 +32,7 @@
             $total_pages = ceil($total_alerts / $limit);
 
             // Fetch paginated alerts
-            $query_alerts = "SELECT * FROM alerts LIMIT $limit OFFSET $offset";
+            $query_alerts = "SELECT * FROM alerts WHERE scenario LIKE 'crowdsecurity/%' LIMIT $limit OFFSET $offset";
             $rs_alerts = pg_query($dbconn, $query_alerts);
 
             if (!$rs_alerts) {

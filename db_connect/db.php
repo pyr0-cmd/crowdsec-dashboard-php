@@ -16,7 +16,7 @@
     //Count Alerts
     function count_alerts(){
         $dbconn = connect_db();
-        $query_alerts = 'SELECT id FROM alerts';
+        $query_alerts = "SELECT * FROM alerts WHERE scenario LIKE 'crowdsecurity/%'";
         $rs_alerts = pg_query($dbconn, $query_alerts);
 
         if (!$rs_alerts) {
@@ -40,7 +40,7 @@
     //Count Decisions
     function count_decisions(){
         $dbconn = connect_db();
-        $query_decisions = 'SELECT id FROM decisions';
+        $query_decisions = "SELECT id FROM decisions WHERE origin != 'CAPI'";
         $rs_decisions = pg_query($dbconn, $query_decisions);
 
         if (!$rs_decisions) {
