@@ -13,32 +13,27 @@
     <title>Crowdsec Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- TailwindCSS CDN -->
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 font-sans leading-normal tracking-normal pt-20">
     
     <?php include 'navbar.php'; ?>
 
     <div class="container mx-auto p-5">
-        <h1 class="text-3xl font-bold mb-5 text-center">Alerts List</h1>
 
         <?php
             include 'db_connect/db.php';
             $dbconn = connect_db();
 
-            // Pagination settings
             $limit = 15; 
             $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
             $offset = ($page - 1) * $limit; // Calculate offset
 
-            // Get total number of alerts
             $total_alerts_query = "SELECT COUNT(*) AS total FROM alerts WHERE scenario LIKE 'crowdsecurity/%'";
             $total_alerts_result = pg_query($dbconn, $total_alerts_query);
             $total_alerts_row = pg_fetch_assoc($total_alerts_result);
             $total_alerts = intval($total_alerts_row['total']);
 
-            // Calculate total pages
             $total_pages = ceil($total_alerts / $limit);
 
-            // Fetch paginated alerts
             $query_alerts = "SELECT * FROM alerts WHERE scenario LIKE 'crowdsecurity/%' LIMIT $limit OFFSET $offset";
             $rs_alerts = pg_query($dbconn, $query_alerts);
 
@@ -88,12 +83,11 @@
             <?php endif; ?>
 
             <?php
-            // Range of pages to show around the current page
+
             $page_range = 5;
             $start_page = max(1, $page - floor($page_range / 2));
             $end_page = min($total_pages, $start_page + $page_range - 1);
 
-            // Ensure the range always displays $page_range number of pages
             if ($end_page - $start_page < $page_range - 1) {
                 $start_page = max(1, $end_page - $page_range + 1);
             }

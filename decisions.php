@@ -13,21 +13,19 @@
     <title>Crowdsec Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- TailwindCSS CDN -->
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 font-sans leading-normal tracking-normal pt-20">
     
     <?php include 'navbar.php'; ?>
 
     <div class="container mx-auto p-5">
-        <h1 class="text-3xl font-bold mb-5 text-center">decisions List</h1>
 
         <?php
             include 'db_connect/db.php';
             $dbconn = connect_db();
 
-            // Pagination settings
             $limit = 15; 
             $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
-            $offset = ($page - 1) * $limit; // Calculate offset
+            $offset = ($page - 1) * $limit;
 
             $total_decisions_query = "SELECT COUNT(*) AS total FROM decisions WHERE origin != 'CAPI'";
             $total_decisions_result = pg_query($dbconn, $total_decisions_query);
@@ -59,7 +57,7 @@
             echo '<th class="px-4 py-2 text-left">Type</th>';
             echo '<th class="px-4 py-2 text-left">Value</th>';
             echo '<th class="px-4 py-2 text-left">Scope</th>';
-            echo '<th class="px-4 py-2 text-left">Alert Decisions</th>';
+            echo '<th class="px-4 py-2 text-left">Alert ID</th>';
 
             echo '</tr>';
             echo '</thead>';

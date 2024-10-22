@@ -1,7 +1,7 @@
 <?php
-// process_login.php
+
 session_start();
-include 'db_connect/db.php'; // Database connection file
+include 'db_connect/db.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
@@ -13,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Connect to the database
     $dbconn = connect_db();
 
     // Prepare the SQL query to find the user with the given username
