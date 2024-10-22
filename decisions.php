@@ -57,7 +57,6 @@
             echo '<th class="px-4 py-2 text-left">Type</th>';
             echo '<th class="px-4 py-2 text-left">Value</th>';
             echo '<th class="px-4 py-2 text-left">Scope</th>';
-            echo '<th class="px-4 py-2 text-left">Alert ID</th>';
 
             echo '</tr>';
             echo '</thead>';
@@ -74,8 +73,6 @@
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['type']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['value']) . '</td>';
                 echo '<td class="px-4 py-2">' . htmlspecialchars($row['scope']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['alert_decisions']) . '</td>';
-
                 echo '</tr>';
             }
 
