@@ -1,3 +1,10 @@
+<?php
+    session_start();
+    if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,13 +29,11 @@
             $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
             $offset = ($page - 1) * $limit; // Calculate offset
 
-            // Get total number of decisions
             $total_decisions_query = "SELECT COUNT(*) AS total FROM decisions WHERE origin != 'CAPI'";
             $total_decisions_result = pg_query($dbconn, $total_decisions_query);
             $total_decisions_row = pg_fetch_assoc($total_decisions_result);
             $total_decisions = intval($total_decisions_row['total']);
 
-            // Calculate total pages
             $total_pages = ceil($total_decisions / $limit);
 
             // Fetch paginated decisions
