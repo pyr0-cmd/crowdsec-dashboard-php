@@ -2,9 +2,41 @@
     include 'db_connect/db.php';
     session_start();
     if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
+        header("Location: login.php");
+        exit();
+    }
+
+    // Function to get detailed system information
+    function get_system_info() {
+        $system_info = [];
+
+        // Get system-related info
+        $system_info['hostname'] = gethostname();
+        $system_info['php_version'] = phpversion();
+        $system_info['server_software'] = $_SERVER['SERVER_SOFTWARE'];
+        $system_info['operating_system'] = PHP_OS;
+        $system_info['server_ip'] = $_SERVER['SERVER_ADDR'];
+        $system_info['client_ip'] = $_SERVER['REMOTE_ADDR'];
+        
+        // Get CPU load (for Unix-based systems)
+        if (stristr(PHP_OS, 'win')) {
+            $system_info['cpu_load'] = 'Not available on Windows';
+        } else {
+            $load = sys_getloadavg();
+            $system_info['cpu_load'] = $load[0] . ' (1 min average)';
+        }
+
+        // Get memory usage
+        $system_info['memory_usage'] = round(memory_get_usage() / 1024 / 1024, 2) . ' MB';
+
+        // Get disk space
+        $system_info['disk_total'] = round(disk_total_space("/") / 1024 / 1024 / 1024, 2) . ' GB';
+        $system_info['disk_free'] = round(disk_free_space("/") / 1024 / 1024 / 1024, 2) . ' GB';
+
+        return $system_info;
+    }
+
+    $system_info = get_system_info();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,10 +51,11 @@
     <?php include 'navbar.php'; ?>
 
     <!-- Main Content -->
-    <div class="flex justify-center items-start h-screen p-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 w-2/3">
+    <div class="container mx-auto p-8">
+        <!-- Cards Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             <!-- Decisions Card -->
-            <div class="bg-white shadow-md rounded-lg p-8 transform scale-110 text-center">
+            <div class="bg-white shadow-md rounded-lg p-8 text-center">
                 <h2 class="text-2xl font-semibold mb-4">Decisions</h2>
                 <p class="text-3xl">
                     <?php
@@ -32,7 +65,7 @@
                 </p>
             </div>
             <!-- Alerts Card -->
-            <div class="bg-white shadow-md rounded-lg p-8 transform scale-110 text-center">
+            <div class="bg-white shadow-md rounded-lg p-8 text-center">
                 <h2 class="text-2xl font-semibold mb-4">Alerts</h2>
                 <p class="text-3xl">
                     <?php
@@ -42,7 +75,7 @@
                 </p>
             </div>
             <!-- Bouncers Card -->
-            <div class="bg-white shadow-md rounded-lg p-8 transform scale-110 text-center">
+            <div class="bg-white shadow-md rounded-lg p-8 text-center">
                 <h2 class="text-2xl font-semibold mb-4">Bouncers</h2>
                 <p class="text-3xl">
                     <?php
@@ -51,6 +84,61 @@
                     ?>
                 </p>
             </div>
+        </div>
+
+        <!-- System Info Section -->
+        <div class="mt-12">
+            <h1 class="text-3xl font-bold mb-6 text-center">System Information</h1>
+            <table class="min-w-full bg-white border border-gray-300 rounded-lg">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th class="px-4 py-2 text-left">Metric</th>
+                        <th class="px-4 py-2 text-left">Value</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    <tr class="border-b border-gray-300">
+                        <td class="px-4 py-2">Hostname</td>
+                        <td class="px-4 py-2"><?php echo $system_info['hostname']; ?></td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <td class="px-4 py-2">Operating System</td>
+                        <td class="px-4 py-2"><?php echo $system_info['operating_system']; ?></td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <td class="px-4 py-2">PHP Version</td>
+                        <td class="px-4 py-2"><?php echo $system_info['php_version']; ?></td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <td class="px-4 py-2">Server Software</td>
+                        <td class="px-4 py-2"><?php echo $system_info['server_software']; ?></td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <td class="px-4 py-2">Server IP</td>
+                        <td class="px-4 py-2"><?php echo $system_info['server_ip']; ?></td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <td class="px-4 py-2">Client IP</td>
+                        <td class="px-4 py-2"><?php echo $system_info['client_ip']; ?></td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <td class="px-4 py-2">CPU Load</td>
+                        <td class="px-4 py-2"><?php echo $system_info['cpu_load']; ?></td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <td class="px-4 py-2">Memory Usage</td>
+                        <td class="px-4 py-2"><?php echo $system_info['memory_usage']; ?></td>
+                    </tr>
+                    <tr class="border-b border-gray-300">
+                        <td class="px-4 py-2">Total Disk Space</td>
+                        <td class="px-4 py-2"><?php echo $system_info['disk_total']; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="px-4 py-2">Free Disk Space</td>
+                        <td class="px-4 py-2"><?php echo $system_info['disk_free']; ?></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </body>
