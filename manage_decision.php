@@ -78,6 +78,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crowdsec Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- TailwindCSS CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal pt-20">
     
@@ -137,9 +138,9 @@
                         <td class="px-4 py-2 flex space-x-2">
                             <form method="POST" onsubmit="return confirm('Are you sure you want to delete this record?');">
                                 <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                <button type="submit" name="delete" class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+                                <button type="submit" name="delete" class="bg-red-500 text-white px-2 py-1 rounded"><i class="fa-regular fa-trash-can"></i></button>
                             </form>
-                            <a href="edit_decision.php?id=<?= $row['id'] ?>" class="bg-green-500 text-white px-2 py-1 rounded">Edit</a>
+                            <a href="edit_decision.php?id=<?= $row['id'] ?>" class="bg-green-500 text-white px-2 py-1 rounded"><i class="fa-regular fa-pen-to-square"></i></a>
                         </td>
                     </tr>
                     <?php endwhile; ?>
