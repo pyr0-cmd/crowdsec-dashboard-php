@@ -42,6 +42,10 @@
             $id = intval($_POST['id']);
             $delete_query = "DELETE FROM decisions WHERE id = $1";
             $result = pg_query_params($dbconn, $delete_query, [$id]);
+
+            if (!$result) {
+                $error = "Error deleting record: " . pg_last_error($dbconn);
+            }
         }
     }
 ?>
