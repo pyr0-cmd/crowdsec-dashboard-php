@@ -19,10 +19,10 @@
         if ($result && pg_num_rows($result) > 0) {
             $decision = pg_fetch_assoc($result);
         } else {
-            $error = "Record not found.";
+            $error = "Record not found!!!.";
         }
     } else {
-        $error = "Invalid record ID.";
+        $error = "Invalid record ID!!!.";
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
