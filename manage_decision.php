@@ -48,7 +48,28 @@
             }
         }
     }
+    // Pagination settings
+    $limit = 15;
+    $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+    $offset = ($page - 1) * $limit;
+
+    $total_decisions_query = "SELECT COUNT(*) AS total FROM decisions WHERE origin != 'CAPI'";
+    $total_decisions_result = pg_query($dbconn, $total_decisions_query);
+    $total_decisions_row = pg_fetch_assoc($total_decisions_result);
+    $total_decisions = intval($total_decisions_row['total']);
+    $total_pages = ceil($total_decisions / $limit);
+
+    // Fetch paginated decisions
+    $query_decisions = "SELECT * FROM decisions WHERE origin != 'CAPI' ORDER BY id DESC LIMIT $1 OFFSET $2";
+    $rs_decisions = pg_query_params($dbconn, $query_decisions, [$limit, $offset]);
+
+    if (!$rs_decisions) {
+        $error = "Error fetching records: " . pg_last_error($dbconn);
+    }
+
 ?>
+
+
 <!-- My front-end skill is SUCK T-T, so i used chatGPT -->
 <!DOCTYPE html>
 <html lang="en">
