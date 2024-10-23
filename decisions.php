@@ -13,11 +13,11 @@
     <title>Crowdsec Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script> <!-- TailwindCSS CDN -->
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal pt-20">
+<body class="bg-gray-100 font-sans leading-normal tracking-normal pt-10">
     
     <?php include 'navbar.php'; ?>
 
-    <div class="container mx-auto p-5">
+    <div class="md:ml-64 p-4 overflow-x-hidden">
 
         <?php
             include 'db_connect/db.php';

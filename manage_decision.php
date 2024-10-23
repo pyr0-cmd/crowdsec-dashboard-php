@@ -18,6 +18,10 @@
             $scope  = 'Ip';
 
             $current_time = date('Y-m-d H:i:s');
+            $date = new DateTime($current_time);
+            // Add 9 hours
+            $date->modify('+9 hours');
+            $until = $date->format('Y-m-d H:i:s');
 
             $insert_query = "INSERT INTO decisions (origin, scenario, created_at, updated_at, until, type, value, scope) 
                             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
@@ -27,7 +31,7 @@
                 $scenario,
                 $current_time,
                 $current_time,
-                $_POST['until'],
+                $until,
                 $type,
                 $value,
                 $scope
@@ -80,11 +84,11 @@
     <script src="https://cdn.tailwindcss.com"></script> <!-- TailwindCSS CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal pt-20">
+<body class="bg-gray-100 font-sans leading-normal tracking-normal pt-10">
     
     <?php include 'navbar.php'; ?>
 
-    <div class="container mx-auto p-5">
+    <div class="md:ml-64 p-4 overflow-x-hidden">
         <?php if (isset($error)): ?>
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                 <?= htmlspecialchars($error) ?>
@@ -98,12 +102,16 @@
             <input type="hidden" name="origin" value="admin">
             <input type="hidden" name="scope" value="Ip">
             <!-- 'created_at' and 'updated_at' are handled in the backend -->
-
-            <input type="text" name="scenario" placeholder="Scenario" required class="border p-2 mb-2 w-full">
-            <input type="datetime-local" name="until" placeholder="Until" required class="border p-2 mb-2 w-full">
-            <input type="text" name="type" placeholder="Type" required class="border p-2 mb-2 w-full">
-            <input type="text" name="value" placeholder="Value" required class="border p-2 mb-2 w-full">
-            <button type="submit" name="create" class="bg-blue-500 text-white px-4 py-2 rounded">Add Decision</button>
+            <div class="grid md:grid-cols-2 md:gap-6">
+                <div class="relative z-0 w-full mb-5 group">
+                    <h3>Scenario </h3> <input type="text" name="scenario" placeholder="Scenario" required class="border p-2 mb-2 w-full">
+                    <h3>IP Address </h3> <input type="text" name="value" placeholder="192.168.x.x, 172.16.x.x,..." required class="border p-2 mb-2 w-full">
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <h3>Type </h3> <input type="text" name="type" placeholder="Type" required class="border p-2 mb-2 w-full">
+                </div>
+            </div>
+            <button type="submit" name="create" class="bg-blue-500 text-white px-4 py-2 rounded"><i class="fa-solid fa-square-plus"></i></button>
         </form>
 
         <!-- Table of records -->

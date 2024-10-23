@@ -46,12 +46,12 @@
     <title>Crowdsec Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal pt-20">
+<body class="bg-gray-100 font-sans leading-normal tracking-normal pt-10">
     <!-- Navbar -->
     <?php include 'navbar.php'; ?>
 
     <!-- Main Content -->
-    <div class="container mx-auto p-8">
+    <div class="md:ml-64 p-4 overflow-x-hidden">
         <!-- Cards Section -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
             <!-- Decisions Card -->
