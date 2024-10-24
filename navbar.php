@@ -1,9 +1,22 @@
-<nav class="bg-green-600 fixed h-full md:w-64 w-full z-50 top-0 md:top-0 md:left-0 p-4">
-    <div class="container mx-auto flex flex-col md:space-y-4 md:items-start items-center">
-        <div class="text-white text-xl font-bold mb-6"><a href="index.php">Crowdsec Dashboard</a></div>
-        <a href="index.php" class="text-white hover:text-blue-200 md:mb-4">Trang Chủ</a>
-        <a href="decisions.php" class="text-white hover:text-blue-200 md:mb-4">Danh sách Chặn</a>
-        <a href="alerts.php" class="text-white hover:text-blue-200 md:mb-4">Cảnh Báo</a>
-        <a href="manage_decision.php" class="text-white hover:text-blue-200">Trình quản lý</a>
+<nav class="bg-gray-600 fixed h-full md:w-64 w-full z-50 top-0 md:top-0 md:left-0 p-4 shadow-lg">
+    <div class="container mx-auto flex flex-col md:space-y-6 space-y-4 items-center md:items-start">
+        <!-- Logo / Dashboard Link -->
+        <div class="text-white text-2xl font-bold mb-6">
+            <a href="index.php" class="hover:text-green-300 transition-colors duration-200">CrowdSec Dashboard</a>
+        </div>
+
+        <!-- Menu Links -->
+        <a href="index.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
+            Trang Chủ
+        </a>
+        <a href="decisions.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
+            Danh sách Chặn
+        </a>
+        <a href="alerts.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
+            Cảnh Báo
+        </a>
+        <a href="manage_decision.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
+            Trình quản lý
+        </a>
     </div>
 </nav>

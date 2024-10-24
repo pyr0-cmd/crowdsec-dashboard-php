@@ -1,51 +1,60 @@
 <?php 
-    session_start();
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: login.php");
-        exit();
-    }
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
 
-    include 'db_connect/db.php';
-    $dbconn = connect_db();
+include 'db_connect/db.php';
+$dbconn = connect_db();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['create'])) {
-            $ip = escapeshellarg($_POST['ip']);
-            $duration = "5m";  
-            $reason = escapeshellarg($_POST['reason']);
+$status_message = '';
+$status_type = '';
 
-            $add_command = "sudo -u www-data cscli decisions add --ip $ip --duration $duration --reason $reason 2>&1";
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['create'])) {
+        $ip = escapeshellarg($_POST['ip']);
+        $duration = "5m";  
+        $reason = escapeshellarg($_POST['reason']);
 
-            $output = [];
-            $return_var = 0;
-            exec($add_command, $output, $return_var); 
+        $add_command = "sudo -u www-data cscli decisions add --ip $ip --duration $duration --reason $reason 2>&1";
 
-            if ($return_var === 0) {
-                echo "Decision added successfully: <br>";
-                echo implode("<br>", $output);
-            } else {
-                echo "Failed to add decision. Error code: $return_var<br>";
-                echo implode("<br>", $output);
-            }
+        $output = [];
+        $return_var = 0;
+        exec($add_command, $output, $return_var); 
 
-        } elseif (isset($_POST['delete'])) {
-            $ip = escapeshellarg($_POST['ip']);  // Changed from intval to escapeshellarg for consistency
+        if ($return_var === 0) {
+            $status_message = "Decision added successfully.";
+            $status_type = 'success';
+        } else {
+            $status_message = "Failed to add decision. Error code: $return_var.";
+            $status_type = 'error';
+        }
+    } elseif (isset($_POST['delete'])) {
+        $ip = escapeshellarg($_POST['ip']);  
 
-            $delete_command = "sudo -u www-data cscli decisions delete --ip $ip 2>&1";  // Ensure command is correct
+        $delete_command = "sudo -u www-data cscli decisions delete --ip $ip 2>&1";  
 
-            $output = [];
-            $return_var = 0;
-            exec($delete_command, $output, $return_var);  // Use $delete_command, not $command
+        $output = [];
+        $return_var = 0;
+        exec($delete_command, $output, $return_var);  
 
-            if ($return_var === 0) {
-                echo "Decision deleted successfully: <br>";
-                echo implode("<br>", $output);
-            } else {
-                echo "Failed to delete decision. Error code: $return_var<br>";
-                echo implode("<br>", $output);
-            }
+        if ($return_var === 0) {
+            $status_message = "Decision deleted successfully.";
+            $status_type = 'success';
+        } else {
+            $status_message = "Failed to delete decision. Error code: $return_var.";
+            $status_type = 'error';
+        }
+        $id = intval($_POST['id']);
+        $delete_query = "DELETE FROM decisions WHERE id = $1";
+        $result = pg_query_params($dbconn, $delete_query, [$id]);
+
+        if (!$result) {
+            $error = "Error deleting record: " . pg_last_error($dbconn);
         }
     }
+}
 
     // Pagination settings
     $limit = 15;
@@ -74,7 +83,6 @@
 
 ?>
 
-<!-- Frontend starts here -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,7 +93,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal pt-10">
-    
+
     <?php include 'navbar.php'; ?>
 
     <div class="md:ml-64 p-4 overflow-x-hidden">
@@ -159,6 +167,29 @@
             <!-- Pagination logic here -->
         </div>
     </div>
+
+    <!-- JavaScript to show alert -->
+    <script>
+        // Display alert if status message exists
+        const statusMessage = '<?= addslashes($status_message) ?>';
+        const statusType = '<?= addslashes($status_type) ?>';
+        
+        if (statusMessage) {
+            if (statusType === 'success') {
+                alert(statusMessage);  // For success
+            } else if (statusType === 'error') {
+                alert('Error: ' + statusMessage);  // For error
+            }
+        }
+    </script>
+
 </body>
 </html>
 
+<?php
+// Free result and close connection
+if (isset($rs_decisions)) {
+    pg_free_result($rs_decisions);
+}
+pg_close($dbconn);
+?>
