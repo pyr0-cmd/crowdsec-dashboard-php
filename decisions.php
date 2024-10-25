@@ -34,7 +34,6 @@
 
             $total_pages = ceil($total_decisions / $limit);
 
-            // Fetch paginated decisions
             $query_decisions = "SELECT * FROM decisions WHERE origin != 'CAPI' LIMIT $limit OFFSET $offset";
             $rs_decisions = pg_query($dbconn, $query_decisions);
 

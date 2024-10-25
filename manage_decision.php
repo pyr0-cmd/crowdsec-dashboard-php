@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $status_message = "Failed to delete decision. Error code: $return_var.";
             $status_type = 'error';
         }
-        // Delete existing record
+
         $delete_query = "DELETE FROM decisions WHERE id = $1";
         $result = pg_query_params($dbconn, $delete_query, [$id]);
 
@@ -57,12 +57,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-    // Pagination settings
     $limit = 15;
     $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
     $offset = ($page - 1) * $limit;
 
-    // Fetch the total number of decisions
     $total_decisions_query = "SELECT COUNT(*) AS total FROM decisions WHERE origin != 'CAPI'";
     $total_decisions_result = pg_query($dbconn, $total_decisions_query);
 
@@ -74,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $total_pages = ceil($total_decisions / $limit);
     }
 
-    // Fetch paginated decisions
     $query_decisions = "SELECT * FROM decisions WHERE origin != 'CAPI' ORDER BY id DESC LIMIT $1 OFFSET $2";
     $rs_decisions = pg_query_params($dbconn, $query_decisions, [$limit, $offset]);
 
@@ -98,14 +95,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php include 'navbar.php'; ?>
 
     <div class="md:ml-64 p-4 overflow-x-hidden">
-        <!-- Display error if any -->
+
         <?php if (isset($error)): ?>
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                 <?= htmlspecialchars($error) ?>
             </div>
         <?php endif; ?>
 
-        <!-- Create new record form -->
         <h2 class="text-2xl font-bold mb-4">Chặn IP</h2>
         <form method="POST" class="mb-5">
             <div class="grid md:grid-cols-2 md:gap-6">
@@ -119,7 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit" name="create" class="bg-blue-500 text-white px-4 py-2 rounded"><i class="fa-solid fa-square-plus"></i> Thêm</button>
         </form>
 
-        <!-- Table of records -->
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white border border-gray-300 rounded-lg">
                 <thead class="bg-gray-800 text-white">
@@ -164,23 +159,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </table>
         </div>
 
-        <!-- Pagination controls -->
         <div class="mt-5 flex justify-center">
-            <!-- Pagination logic here -->
         </div>
     </div>
 
-    <!-- JavaScript to show alert -->
     <script>
-        // Display alert if status message exists
         const statusMessage = '<?= addslashes($status_message) ?>';
         const statusType = '<?= addslashes($status_type) ?>';
         
         if (statusMessage) {
             if (statusType === 'success') {
-                alert(statusMessage);  // For success
+                alert(statusMessage);  
             } else if (statusType === 'error') {
-                alert('Error: ' + statusMessage);  // For error
+                alert('Error: ' + statusMessage); 
             }
         }
     </script>
@@ -189,7 +180,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </html>
 
 <?php
-// Free result and close connection
 if (isset($rs_decisions)) {
     pg_free_result($rs_decisions);
 }

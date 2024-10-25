@@ -25,7 +25,7 @@
 
             $limit = 15; 
             $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
-            $offset = ($page - 1) * $limit; // Calculate offset
+            $offset = ($page - 1) * $limit;
 
             $total_alerts_query = "SELECT COUNT(*) AS total FROM alerts WHERE scenario LIKE 'crowdsecurity/%'";
             $total_alerts_result = pg_query($dbconn, $total_alerts_query);

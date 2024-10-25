@@ -6,11 +6,9 @@
         exit();
     }
 
-    // Function to get detailed system information
     function get_system_info() {
         $system_info = [];
 
-        // Get system-related info
         $system_info['hostname'] = gethostname();
         $system_info['php_version'] = phpversion();
         $system_info['server_software'] = $_SERVER['SERVER_SOFTWARE'];
@@ -18,7 +16,6 @@
         $system_info['server_ip'] = $_SERVER['SERVER_ADDR'];
         $system_info['client_ip'] = $_SERVER['REMOTE_ADDR'];
         
-        // Get CPU load (for Unix-based systems)
         if (stristr(PHP_OS, 'win')) {
             $system_info['cpu_load'] = 'Not available on Windows';
         } else {
@@ -26,10 +23,8 @@
             $system_info['cpu_load'] = $load[0] . ' (1 min average)';
         }
 
-        // Get memory usage
         $system_info['memory_usage'] = round(memory_get_usage() / 1024 / 1024, 2) . ' MB';
 
-        // Get disk space
         $system_info['disk_total'] = round(disk_total_space("/") / 1024 / 1024 / 1024, 2) . ' GB';
         $system_info['disk_free'] = round(disk_free_space("/") / 1024 / 1024 / 1024, 2) . ' GB';
 
