@@ -31,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $status_type = 'error';
         }
     } elseif (isset($_POST['delete'])) {
-        $ip = escapeshellarg($_POST['ip']);  
-
+        $ip = escapeshellarg($_POST['ip']);
+        $id = intval($_POST['id']);
         $delete_command = "sudo -u www-data cscli decisions delete --ip $ip 2>&1";  
 
         $output = [];
@@ -46,13 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $status_message = "Failed to delete decision. Error code: $return_var.";
             $status_type = 'error';
         }
-        $id = intval($_POST['id']);
+        // Delete existing record
         $delete_query = "DELETE FROM decisions WHERE id = $1";
         $result = pg_query_params($dbconn, $delete_query, [$id]);
 
         if (!$result) {
             $error = "Error deleting record: " . pg_last_error($dbconn);
         }
+
     }
 }
 
@@ -151,9 +152,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <td class="px-4 py-2 flex space-x-2">
                                 <form method="POST" onsubmit="return confirm('Are you sure you want to delete this record?');">
                                     <input type="hidden" name="ip" value="<?= $row['value'] ?>">
+                                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                     <button type="submit" name="delete" class="bg-red-500 text-white px-2 py-1 rounded"><i class="fa-regular fa-trash-can"></i></button>
                                 </form>
-                                <a href="edit_decision.php?id=<?= $row['id'] ?>" class="bg-green-500 text-white px-2 py-1 rounded"><i class="fa-regular fa-pen-to-square"></i></a>
+                                
                             </td>
                         </tr>
                         <?php endwhile; ?>
