@@ -9,6 +9,9 @@
         <a href="decisions.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
             Danh sách Chặn
         </a>
+        <a href="machines.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
+            Danh sách Agent
+        </a>
         <a href="alerts.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
             Cảnh Báo
         </a>
