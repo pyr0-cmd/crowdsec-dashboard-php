@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <th class="px-4 py-2 text-left">Updated At</th>
                         <th class="px-4 py-2 text-left">Until</th>
                         <th class="px-4 py-2 text-left">Type</th>
-                        <th class="px-4 py-2 text-left">Value</th>
+                        <th class="px-4 py-2 text-left">Source IP</th>
                         <th class="px-4 py-2 text-left">Scope</th>
                         <th class="px-4 py-2 text-left">Actions</th>
                     </tr>

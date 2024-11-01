@@ -4,15 +4,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $duration = escapeshellarg($_POST['duration']);
     $reason = escapeshellarg($_POST['reason']);
     
-    // Lệnh cscli cần thực thi
     $command = "sudo -u www-data cscli decisions add --ip $ip --duration $duration --reason $reason 2>&1";
     
-    // Thực thi lệnh và lưu output
     $output = [];
     $return_var = 0;
     exec($command, $output, $return_var);
     
-    // Hiển thị kết quả
     if ($return_var === 0) {
         echo "Decision added successfully:<br>";
         echo implode("<br>", $output);
