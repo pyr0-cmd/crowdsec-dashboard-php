@@ -52,7 +52,7 @@
             <!-- Decisions Card -->
             <div class="bg-white shadow-md rounded-lg p-8 text-center">
                 <h2 class="text-2xl font-semibold mb-4">Decisions</h2>
-                <p class="text-3xl">
+                <p class="text-3xl" id="decisions_count">
                     <?php
                         $decisions = count_decisions();
                         echo "<span class='font-bold'>" . $decisions . "</span>";
@@ -62,7 +62,7 @@
             <!-- Alerts Card -->
             <div class="bg-white shadow-md rounded-lg p-8 text-center">
                 <h2 class="text-2xl font-semibold mb-4">Alerts</h2>
-                <p class="text-3xl">
+                <p class="text-3xl" id="alerts_count">
                     <?php
                         $alerts = count_alerts();
                         echo "<span class='font-bold'>" . $alerts . "</span>";
@@ -72,7 +72,7 @@
             <!-- Bouncers Card -->
             <div class="bg-white shadow-md rounded-lg p-8 text-center">
                 <h2 class="text-2xl font-semibold mb-4">Bouncers</h2>
-                <p class="text-3xl">
+                <p class="text-3xl" id="bouncers_count">
                     <?php
                         $bouncers = count_bouncers();
                         echo "<span class='font-bold'>" . $bouncers . "</span>";
