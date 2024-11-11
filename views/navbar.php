@@ -6,16 +6,16 @@
         <a href="../index.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
             Trang Chủ
         </a>
-        <a href="../models/decisions.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
+        <a href="../controllers/decisions.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
             Danh sách Chặn
         </a>
-        <a href="../models/machines.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
+        <a href="../controllers/machines.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
             Danh sách Agent
         </a>
-        <a href="../models/alerts.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
+        <a href="../controllers/alerts.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
             Cảnh Báo
         </a>
-        <a href="../models/manage_decision.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
+        <a href="../controllers/manage_decision.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
             Quản lý chặn
         </a>
     </div>

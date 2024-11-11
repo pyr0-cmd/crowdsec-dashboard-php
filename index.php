@@ -1,5 +1,5 @@
 <?php
-    include 'db_connect/db.php';
+    include 'models/db.php';
     session_start();
     if (!isset($_SESSION['user_id'])) {
         header("Location: login.php");
@@ -43,7 +43,7 @@
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal pt-10">
     <!-- Navbar -->
-    <?php include 'navbar.php'; ?>
+    <?php include 'views/navbar.php'; ?>
 
     <!-- Main Content -->
     <div class="md:ml-64 p-4 overflow-x-hidden">

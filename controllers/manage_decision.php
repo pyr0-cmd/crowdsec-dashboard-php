@@ -1,11 +1,11 @@
 <?php 
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 
-include 'db_connect/db.php';
+include '../models/db.php';
 $dbconn = connect_db();
 
 $status_message = '';
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="bg-gray-100 font-sans leading-normal tracking-normal pt-10">
 
-    <?php include 'navbar.php'; ?>
+    <?php include '../views/navbar.php'; ?>
 
     <div class="md:ml-64 p-4 overflow-x-hidden">
 
