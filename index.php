@@ -52,21 +52,15 @@
             <!-- Decisions Card -->
             <div class="bg-white shadow-md rounded-lg p-8 text-center">
                 <h2 class="text-2xl font-semibold mb-4">Decisions</h2>
-                <p class="text-3xl" id="decisions_count">
-                    <?php
-                        $decisions = count_decisions();
-                        echo "<span class='font-bold'>" . $decisions . "</span>";
-                    ?>
+                <p class="text-3xl font-bold" id="decisions_count">
+                    null
                 </p>
             </div>
             <!-- Alerts Card -->
             <div class="bg-white shadow-md rounded-lg p-8 text-center">
                 <h2 class="text-2xl font-semibold mb-4">Alerts</h2>
-                <p class="text-3xl" id="alerts_count">
-                    <?php
-                        $alerts = count_alerts();
-                        echo "<span class='font-bold'>" . $alerts . "</span>";
-                    ?>
+                <p class="text-3xl font-bold" id="alerts_count">
+                    null
                 </p>
             </div>
             <!-- Bouncers Card -->
@@ -136,5 +130,23 @@
             </table>
         </div>
     </div>
+    <script>
+        const ws = new WebSocket('ws://192.168.56.129:9090');
+
+        ws.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            document.getElementById('decisions_count').innerText = data.decisions;
+            document.getElementById('alerts_count').innerText = data.alerts;
+            console.log(data.decisions);
+        };
+        
+        ws.onopen = function() {
+            console.log('Connected to WebSocket server');
+        };
+
+        ws.onclose = function() {
+            console.log('Disconnected from WebSocket server');
+        };
+    </script>
 </body>
 </html>
