@@ -90,7 +90,7 @@
                         include '../models/db.php';
                         $dbconn = connect_db();
 
-                        $limit = 8; 
+                        $limit = 6; 
                         $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
                         $offset = ($page - 1) * $limit;
 
