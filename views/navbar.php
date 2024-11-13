@@ -1,22 +1,32 @@
-<nav class="bg-gray-600 fixed h-full md:w-64 w-full z-50 top-0 md:top-0 md:left-0 p-4 shadow-lg">
-    <div class="container mx-auto flex flex-col md:space-y-6 space-y-4 items-center md:items-start">
-        <div class="text-white text-2xl font-bold mb-6">
-            <a href="../index.php" class="hover:text-green-300 transition-colors duration-200">Trình quản lý Crowdsec</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">Crowdsec</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="../index.php">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../controllers/alerts.php">Alert</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../controllers/decisions.php">Decisions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="../controllers/machines.php">Agents</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
         </div>
-        <a href="../index.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
-            Trang Chủ
-        </a>
-        <a href="../controllers/decisions.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
-            Danh sách Chặn
-        </a>
-        <a href="../controllers/machines.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
-            Danh sách Agent
-        </a>
-        <a href="../controllers/alerts.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
-            Cảnh Báo
-        </a>
-        <a href="../controllers/manage_decision.php" class="text-white hover:bg-green-700 w-full text-center md:text-left py-2 px-4 rounded-md transition-colors duration-200">
-            Quản lý chặn
-        </a>
-    </div>
+      </li>
+    </ul>
+  </div>
 </nav>

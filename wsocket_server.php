@@ -36,7 +36,7 @@ while (true) {
     foreach ($clients as $client) {
         send_message($client, json_encode(getData()));
     }
-    sleep(5);
+    sleep(2);
 }
 
 function perform_handshake($received_header, $client_conn, $host, $port) {

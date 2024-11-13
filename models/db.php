@@ -40,7 +40,7 @@
     //Count Decisions
     function count_decisions(){
         $dbconn = connect_db();
-        $query_decisions = "SELECT id FROM decisions WHERE origin != 'CAPI'";
+        $query_decisions = "SELECT * FROM decisions";
         $rs_decisions = pg_query($dbconn, $query_decisions);
 
         if (!$rs_decisions) {

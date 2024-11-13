@@ -5,7 +5,7 @@
         header("Location: login.php");
         exit();
     }
-
+    
     function get_system_info() {
         $system_info = [];
 
@@ -39,97 +39,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crowdsec</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal pt-10">
+<body class="bg-light">
     <!-- Navbar -->
     <?php include 'views/navbar.php'; ?>
 
     <!-- Main Content -->
-    <div class="md:ml-64 p-4 overflow-x-hidden">
-        <!-- Cards Section -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <!-- Decisions Card -->
-            <div class="bg-white shadow-md rounded-lg p-8 text-center">
-                <h2 class="text-2xl font-semibold mb-4">Decisions</h2>
-                <p class="text-3xl font-bold" id="decisions_count">
-                    null
-                </p>
+        <div class="container mt-4" style="padding: 50px;">
+            <!-- Cards Section -->
+            <div class="row mb-4">
+                <!-- Decisions Card -->
+                <div class="col-md-4">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Decisions</h5>
+                            <p class="display-4 fw-bold" id="decisions_count">null</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Alerts Card -->
+                <div class="col-md-4">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Alerts</h5>
+                            <p class="display-4 fw-bold" id="alerts_count">null</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Bouncers Card -->
+                <div class="col-md-4">
+                    <div class="card text-center shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Bouncers</h5>
+                            <p class="display-4" id="bouncers_count">
+                                <?php
+                                    $bouncers = count_bouncers();
+                                    echo "<span class='fw-bold'>" . $bouncers . "</span>";
+                                ?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- Alerts Card -->
-            <div class="bg-white shadow-md rounded-lg p-8 text-center">
-                <h2 class="text-2xl font-semibold mb-4">Alerts</h2>
-                <p class="text-3xl font-bold" id="alerts_count">
-                    null
-                </p>
-            </div>
-            <!-- Bouncers Card -->
-            <div class="bg-white shadow-md rounded-lg p-8 text-center">
-                <h2 class="text-2xl font-semibold mb-4">Bouncers</h2>
-                <p class="text-3xl" id="bouncers_count">
-                    <?php
-                        $bouncers = count_bouncers();
-                        echo "<span class='font-bold'>" . $bouncers . "</span>";
-                    ?>
-                </p>
+
+            <!-- System Info Section -->
+            <h2 class="mb-4 text-center">System Information</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Metric</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($system_info as $key => $value): ?>
+                        <tr>
+                            <td><?php echo ucfirst(str_replace('_', ' ', $key)); ?></td>
+                            <td><?php echo $value; ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- System Info Section -->
-        <div class="mt-12">
-            <h1 class="text-3xl font-bold mb-6 text-center">System Information</h1>
-            <table class="min-w-full bg-white border border-gray-300 rounded-lg">
-                <thead class="bg-gray-800 text-white">
-                    <tr>
-                        <th class="px-4 py-2 text-left">Metric</th>
-                        <th class="px-4 py-2 text-left">Value</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-700">
-                    <tr class="border-b border-gray-300">
-                        <td class="px-4 py-2">Hostname</td>
-                        <td class="px-4 py-2"><?php echo $system_info['hostname']; ?></td>
-                    </tr>
-                    <tr class="border-b border-gray-300">
-                        <td class="px-4 py-2">Operating System</td>
-                        <td class="px-4 py-2"><?php echo $system_info['operating_system']; ?></td>
-                    </tr>
-                    <tr class="border-b border-gray-300">
-                        <td class="px-4 py-2">PHP Version</td>
-                        <td class="px-4 py-2"><?php echo $system_info['php_version']; ?></td>
-                    </tr>
-                    <tr class="border-b border-gray-300">
-                        <td class="px-4 py-2">Server Software</td>
-                        <td class="px-4 py-2"><?php echo $system_info['server_software']; ?></td>
-                    </tr>
-                    <tr class="border-b border-gray-300">
-                        <td class="px-4 py-2">Server IP</td>
-                        <td class="px-4 py-2"><?php echo $system_info['server_ip']; ?></td>
-                    </tr>
-                    <tr class="border-b border-gray-300">
-                        <td class="px-4 py-2">Client IP</td>
-                        <td class="px-4 py-2"><?php echo $system_info['client_ip']; ?></td>
-                    </tr>
-                    <tr class="border-b border-gray-300">
-                        <td class="px-4 py-2">CPU Load</td>
-                        <td class="px-4 py-2"><?php echo $system_info['cpu_load']; ?></td>
-                    </tr>
-                    <tr class="border-b border-gray-300">
-                        <td class="px-4 py-2">Memory Usage</td>
-                        <td class="px-4 py-2"><?php echo $system_info['memory_usage']; ?></td>
-                    </tr>
-                    <tr class="border-b border-gray-300">
-                        <td class="px-4 py-2">Total Disk Space</td>
-                        <td class="px-4 py-2"><?php echo $system_info['disk_total']; ?></td>
-                    </tr>
-                    <tr>
-                        <td class="px-4 py-2">Free Disk Space</td>
-                        <td class="px-4 py-2"><?php echo $system_info['disk_free']; ?></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const ws = new WebSocket('ws://192.168.56.129:9090');
 

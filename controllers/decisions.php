@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    if (!isset($_SESSION['user_id'])) {
+session_start();
+if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.php");
     exit();
 }
@@ -11,13 +11,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crowdsec Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script> <!-- TailwindCSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal pt-10">
+<body class="bg-light">
     
     <?php include '../views/navbar.php'; ?>
 
-    <div class="md:ml-64 p-4 overflow-x-hidden">
+    <div class="container mt-4">
 
         <?php
             include '../models/db.php';
@@ -27,14 +27,14 @@
             $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
             $offset = ($page - 1) * $limit;
 
-            $total_decisions_query = "SELECT COUNT(*) AS total FROM decisions WHERE origin != 'CAPI'";
+            $total_decisions_query = "SELECT COUNT(*) AS total FROM decisions";
             $total_decisions_result = pg_query($dbconn, $total_decisions_query);
             $total_decisions_row = pg_fetch_assoc($total_decisions_result);
             $total_decisions = intval($total_decisions_row['total']);
 
             $total_pages = ceil($total_decisions / $limit);
 
-            $query_decisions = "SELECT * FROM decisions WHERE origin != 'CAPI' LIMIT $limit OFFSET $offset";
+            $query_decisions = "SELECT * FROM decisions LIMIT $limit OFFSET $offset";
             $rs_decisions = pg_query($dbconn, $query_decisions);
 
             if (!$rs_decisions) {
@@ -43,35 +43,34 @@
                 exit();
             }
 
-            echo '<div class="overflow-x-auto">';
-            echo '<table class="min-w-full bg-white border border-gray-300 rounded-lg">';
-            echo '<thead class="bg-gray-800 text-white">';
+            echo '<div class="table-responsive">';
+            echo '<table class="table table-bordered table-hover">';
+            echo '<thead class="table-dark">';
             echo '<tr>';
-            echo '<th class="px-4 py-2 text-left">ID</th>';
-            echo '<th class="px-4 py-2 text-left">Origin</th>';
-            echo '<th class="px-4 py-2 text-left">Scenarios</th>';
-            echo '<th class="px-4 py-2 text-left">Create at</th>';
-            echo '<th class="px-4 py-2 text-left">Updated at</th>';
-            echo '<th class="px-4 py-2 text-left">Until</th>';
-            echo '<th class="px-4 py-2 text-left">Type</th>';
-            echo '<th class="px-4 py-2 text-left">Value</th>';
-            echo '<th class="px-4 py-2 text-left">Scope</th>';
-
+            echo '<th>ID</th>';
+            echo '<th>Origin</th>';
+            echo '<th>Scenario</th>';
+            echo '<th>Created At</th>';
+            echo '<th>Updated At</th>';
+            echo '<th>Until</th>';
+            echo '<th>Type</th>';
+            echo '<th>Value</th>';
+            echo '<th>Scope</th>';
             echo '</tr>';
             echo '</thead>';
-            echo '<tbody class="text-gray-700">';
+            echo '<tbody>';
 
             while ($row = pg_fetch_assoc($rs_decisions)) {
-                echo '<tr class="border-b border-gray-300">';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['id']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['origin']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['scenario']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['created_at']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['updated_at']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['until']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['type']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['value']) . '</td>';
-                echo '<td class="px-4 py-2">' . htmlspecialchars($row['scope']) . '</td>';
+                echo '<tr>';
+                echo '<td>' . htmlspecialchars($row['id']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['origin']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['scenario']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['created_at']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['updated_at']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['until']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['type']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['value']) . '</td>';
+                echo '<td>' . htmlspecialchars($row['scope']) . '</td>';
                 echo '</tr>';
             }
 
@@ -83,46 +82,55 @@
             pg_close($dbconn);
         ?>
 
-       <!-- Pagination controls -->
-        <div class="mt-5 flex justify-center">
-            <?php if ($page > 1): ?>
-                <a href="?page=<?= $page - 1 ?>" class="bg-gray-800 text-white px-3 py-1 rounded mr-2">Previous</a>
-            <?php endif; ?>
-
-            <?php
-            
-            $page_range = 5;
-            $start_page = max(1, $page - floor($page_range / 2));
-            $end_page = min($total_pages, $start_page + $page_range - 1);
-
-            if ($end_page - $start_page < $page_range - 1) {
-                $start_page = max(1, $end_page - $page_range + 1);
-            }
-            ?>
-
-            <?php if ($start_page > 1): ?>
-                <a href="?page=1" class="px-3 py-1 bg-gray-200 text-gray-800 rounded mx-1">1</a>
-                <?php if ($start_page > 2): ?>
-                    <span class="px-3 py-1 text-gray-600">...</span>
+        <!-- Pagination controls -->
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+                <?php if ($page > 1): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
+                    </li>
                 <?php endif; ?>
-            <?php endif; ?>
 
-            <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
-                <a href="?page=<?= $i ?>" class="px-3 py-1 <?= ($i == $page) ? 'bg-gray-600 text-white' : 'bg-gray-200 text-gray-800' ?> rounded mx-1"><?= $i ?></a>
-            <?php endfor; ?>
+                <?php
+                $page_range = 5;
+                $start_page = max(1, $page - floor($page_range / 2));
+                $end_page = min($total_pages, $start_page + $page_range - 1);
 
-            <?php if ($end_page < $total_pages): ?>
-                <?php if ($end_page < $total_pages - 1): ?>
-                    <span class="px-3 py-1 text-gray-600">...</span>
+                if ($end_page - $start_page < $page_range - 1) {
+                    $start_page = max(1, $end_page - $page_range + 1);
+                }
+                ?>
+
+                <?php if ($start_page > 1): ?>
+                    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                    <?php if ($start_page > 2): ?>
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    <?php endif; ?>
                 <?php endif; ?>
-                <a href="?page=<?= $total_pages ?>" class="px-3 py-1 bg-gray-200 text-gray-800 rounded mx-1"><?= $total_pages ?></a>
-            <?php endif; ?>
 
-            <?php if ($page < $total_pages): ?>
-                <a href="?page=<?= $page + 1 ?>" class="bg-gray-800 text-white px-3 py-1 rounded ml-2">Next</a>
-            <?php endif; ?>
-        </div>
+                <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
+                    <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                        <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                    </li>
+                <?php endfor; ?>
+
+                <?php if ($end_page < $total_pages): ?>
+                    <?php if ($end_page < $total_pages - 1): ?>
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    <?php endif; ?>
+                    <li class="page-item"><a class="page-link" href="?page=<?= $total_pages ?>"><?= $total_pages ?></a></li>
+                <?php endif; ?>
+
+                <?php if ($page < $total_pages): ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
 
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
