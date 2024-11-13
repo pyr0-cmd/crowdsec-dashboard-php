@@ -17,7 +17,7 @@ if (!isset($_SESSION['user_id'])) {
     
     <?php include '../views/navbar.php'; ?>
 
-    <div class="container mt-4">
+    <div class="container mt-4" style="padding-top: 50px;">
         <?php
             include '../models/db.php';
             $dbconn = connect_db();

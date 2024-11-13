@@ -53,7 +53,7 @@
                 <div class="col-md-4">
                     <div class="card text-center shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title">Decisions</h5>
+                            <h5 class="card-title">Blocked IPs</h5>
                             <p class="display-4 fw-bold" id="decisions_count">null</p>
                         </div>
                     </div>
@@ -82,27 +82,91 @@
                     </div>
                 </div>
             </div>
+            <div class="row mb-5">
+                <!-- Alerts Table -->
+                <div class="col-md-6">
+                    <h3 class="mb-3 text-center">Alerts</h3>
+                    <?php
+                        include '../models/db.php';
+                        $dbconn = connect_db();
 
-            <!-- System Info Section -->
-            <h2 class="mb-4 text-center">System Information</h2>
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Metric</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($system_info as $key => $value): ?>
-                        <tr>
-                            <td><?php echo ucfirst(str_replace('_', ' ', $key)); ?></td>
-                            <td><?php echo $value; ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        $limit = 8; 
+                        $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+                        $offset = ($page - 1) * $limit;
+
+                        $total_alerts_query = "SELECT COUNT(*) AS total FROM alerts WHERE scenario LIKE 'crowdsecurity/%'";
+                        $total_alerts_result = pg_query($dbconn, $total_alerts_query);
+                        $total_alerts_row = pg_fetch_assoc($total_alerts_result);
+                        $total_alerts = intval($total_alerts_row['total']);
+
+                        $total_pages = ceil($total_alerts / $limit);
+
+                        $query_alerts = "SELECT * FROM alerts WHERE scenario LIKE 'crowdsecurity/%' LIMIT $limit OFFSET $offset";
+                        $rs_alerts = pg_query($dbconn, $query_alerts);
+
+                        if (!$rs_alerts) {
+                            echo json_encode(['error' => 'Error executing query: ' . pg_last_error()]);
+                            pg_close($dbconn);
+                            exit();
+                        }
+
+                        echo '<div class="table-responsive">';
+                        echo '<table class="table table-bordered table-hover">';
+                        echo '<thead class="table-dark">';
+                        echo '<tr>';
+                        echo '<th scope="col">ID</th>';
+                        echo '<th scope="col">Scenario</th>';
+                        echo '<th scope="col">Started</th>';
+                        echo '<th scope="col">Source IP</th>';
+                        echo '<th scope="col">Target</th>';
+                        echo '</tr>';
+                        echo '</thead>';
+                        echo '<tbody>';
+
+                        while ($row = pg_fetch_assoc($rs_alerts)) {
+                            echo '<tr>';
+                            echo '<td>' . htmlspecialchars($row['id']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['scenario']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['started_at']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['source_ip']) . '</td>';
+                            echo '<td>' . htmlspecialchars($row['machine_alerts']) . '</td>';
+                            echo '</tr>';
+                        }
+
+                        echo '</tbody>';
+                        echo '</table>';
+                        echo '</div>';
+
+                        pg_free_result($rs_alerts);
+                        pg_close($dbconn);
+                    ?>
+                </div>
+
+                <!-- System Info Section -->
+                 <div class="col-md-6">
+                 <h3 class="mb-3 text-center">System Information</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Metric</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($system_info as $key => $value): ?>
+                            <tr>
+                                <td><?php echo ucfirst(str_replace('_', ' ', $key)); ?></td>
+                                <td><?php echo $value; ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                 </div>
+                
             </div>
+            
         </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

@@ -23,7 +23,7 @@ if (!isset($_SESSION['user_id'])) {
             include '../models/db.php';
             $dbconn = connect_db();
 
-            $limit = 15; 
+            $limit = 8; 
             $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
             $offset = ($page - 1) * $limit;
 
