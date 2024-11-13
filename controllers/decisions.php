@@ -17,13 +17,13 @@ if (!isset($_SESSION['user_id'])) {
     
     <?php include '../views/navbar.php'; ?>
 
-    <div class="container mt-4">
+    <div class="container mt-4" style="padding-top: 50px;">
 
         <?php
             include '../models/db.php';
             $dbconn = connect_db();
 
-            $limit = 15; 
+            $limit = 8; 
             $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
             $offset = ($page - 1) * $limit;
 
