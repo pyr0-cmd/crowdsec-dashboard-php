@@ -9,7 +9,7 @@
         <a class="nav-link" href="../index.php">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../controllers/decisions.php">Blocked List</a>
+        <a class="nav-link" href="../controllers/manage_decision.php">Blocked List</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="../controllers/machines.php">Agents</a>

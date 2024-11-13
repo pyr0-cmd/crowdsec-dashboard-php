@@ -118,7 +118,6 @@
                         echo '<th scope="col">Scenario</th>';
                         echo '<th scope="col">Started</th>';
                         echo '<th scope="col">Source IP</th>';
-                        echo '<th scope="col">Target</th>';
                         echo '</tr>';
                         echo '</thead>';
                         echo '<tbody>';
@@ -129,7 +128,6 @@
                             echo '<td>' . htmlspecialchars($row['scenario']) . '</td>';
                             echo '<td>' . htmlspecialchars($row['started_at']) . '</td>';
                             echo '<td>' . htmlspecialchars($row['source_ip']) . '</td>';
-                            echo '<td>' . htmlspecialchars($row['machine_alerts']) . '</td>';
                             echo '</tr>';
                         }
 
