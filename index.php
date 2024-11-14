@@ -138,6 +138,7 @@
                         pg_free_result($rs_alerts);
                         pg_close($dbconn);
                     ?>
+
                 </div>
 
                 <!-- System Info Section -->
