@@ -1,7 +1,7 @@
 <?php
 
 include "models/db.php";
-$host = '192.168.56.129';
+$host = '192.168.1.131';
 $port = 9090;
 $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 socket_bind($socket, $host, $port);
@@ -66,10 +66,27 @@ function send_message($client, $msg) {
 }
 
 function getData() {
-    // Replace these functions with the ones that query PostgreSQL
+    $dbconn = connect_db();
+    $query_alerts = "SELECT * FROM alerts WHERE scenario LIKE 'crowdsecurity/%' ORDER BY id DESC LIMIT 6";
+    $rs_alerts = pg_query($dbconn, $query_alerts);
+    
+    $alerts = [];
+    while ($row = pg_fetch_assoc($rs_alerts)) {
+        $alerts[] = [
+            'id' => $row['id'],
+            'scenario' => $row['scenario'],
+            'started_at' => $row['started_at'],
+            'source_ip' => $row['source_ip']
+        ];
+    }
+    
+    pg_free_result($rs_alerts);
+    pg_close($dbconn);
     return [
         'decisions' => count_decisions(),
         'alerts' => count_alerts(),
+        'alerts_table' => $alerts,
     ];
 }
+var_dump(getData().alerts_table);
 ?>

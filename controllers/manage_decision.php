@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $duration = "5m";  
         $reason = escapeshellarg($_POST['reason']);
 
-        $add_command = "sudo -u www-data cscli decisions add --ip $ip --duration $duration --reason $reason 2>&1";
+        $add_command = "sudo -u www-data sudo cscli decisions add --ip $ip --duration $duration --reason $reason 2>&1";
 
         $output = [];
         $return_var = 0;
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['delete'])) {
         $ip = escapeshellarg($_POST['ip']);
         $id = intval($_POST['id']);
-        $delete_command = "sudo -u www-data cscli decisions delete --ip $ip 2>&1";  
+        $delete_command = "sudo -u www-data sudo cscli decisions delete --ip $ip 2>&1";  
 
         $output = [];
         $return_var = 0;

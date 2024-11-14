@@ -169,7 +169,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const ws = new WebSocket('ws://192.168.56.129:9090');
+        const ws = new WebSocket('ws://192.168.1.131:9090');
 
         ws.onmessage = function(event) {
             const data = JSON.parse(event.data);
