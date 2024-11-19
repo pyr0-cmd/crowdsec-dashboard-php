@@ -90,7 +90,7 @@
                         include '../models/db.php';
                         $dbconn = connect_db();
 
-                        $limit = 6; 
+                        $limit = 10;
                         $page = isset($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
                         $offset = ($page - 1) * $limit;
 
@@ -137,8 +137,55 @@
 
                         pg_free_result($rs_alerts);
                         pg_close($dbconn);
-                    ?>
 
+                        
+                    ?>
+                    <!-- Pagination controls -->
+                    <nav class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <?php if ($page > 1): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
+                                </li>
+                            <?php endif; ?>
+
+                            <?php
+                            $page_range = 5;
+                            $start_page = max(1, $page - floor($page_range / 2));
+                            $end_page = min($total_pages, $start_page + $page_range - 1);
+
+                            if ($end_page - $start_page < $page_range - 1) {
+                                $start_page = max(1, $end_page - $page_range + 1);
+                            }
+                            ?>
+
+                            <?php if ($start_page > 1): ?>
+                                <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                                <?php if ($start_page > 2): ?>
+                                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
+                                <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                </li>
+                            <?php endfor; ?>
+
+                            <?php if ($end_page < $total_pages): ?>
+                                <?php if ($end_page < $total_pages - 1): ?>
+                                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                                <?php endif; ?>
+                                <li class="page-item"><a class="page-link" href="?page=<?= $total_pages ?>"><?= $total_pages ?></a></li>
+                            <?php endif; ?>
+
+                            <?php if ($page < $total_pages): ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
                 </div>
 
                 <!-- System Info Section -->
