@@ -84,7 +84,7 @@
             </div>
             <div class="row mb-5">
                 <!-- Alerts Table -->
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <h3 class="mb-3 text-center">Alerts</h3>
                     <?php
                         include '../models/db.php';
@@ -189,7 +189,7 @@
                 </div>
 
                 <!-- System Info Section -->
-                 <div class="col-md-6">
+                 <div class="col-md-4">
                  <h3 class="mb-3 text-center">System Information</h3>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
